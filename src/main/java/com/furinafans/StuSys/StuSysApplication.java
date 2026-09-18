@@ -1,4 +1,4 @@
-package com.furinafans.StuSys;
+package com.furinafans.stusys;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class StuSysApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(StuSysApplication.class, args);
 	}
-
 }
