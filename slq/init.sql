@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS classes (
     id BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(20) NOT NULL COMMENT '班级名',
     grade_id BIGINT UNSIGNED NOT NULL COMMENT '年级ID',
+    CONSTRAINT pk_classes PRIMARY KEY (id),
     CONSTRAINT fk_grades_classes FOREIGN KEY (grade_id) REFERENCES grades(id)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '班级表';
 
