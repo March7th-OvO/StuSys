@@ -2,6 +2,8 @@ package com.furinafans.stusys.service.serviceImpl;
 
 import java.util.List;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.mapper.StudentMapper;
 import com.furinafans.stusys.service.StudentService;
@@ -17,11 +19,6 @@ public class StudentServiceImpl implements StudentService {
     private final StudentMapper studentMapper;
     
     @Override
-    public List<Student> listAll() {
-        return studentMapper.selectList(null);
-    }
-    
-    @Override
     public Integer addStudent(Student student) {
         studentMapper.insert(student);
         return student.getId();
@@ -30,5 +27,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student getStudentById(Integer id) {
         return studentMapper.selectById(id);
+    }
+
+    @Override 
+    public IPage<Student> page(Integer pageNum, Integer pageSize){
+        Page<Student> page = new Page<>(pageNum, pageSize);
+        return studentMapper.selectPage(page, null);
     }
 }

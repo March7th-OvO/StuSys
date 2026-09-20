@@ -66,6 +66,12 @@
 			<version>3.5.17</version>
 			<scope>compile</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-jsqlparser-4.9</artifactId>
+			<version>3.5.17</version>
+		</dependency>
 	</dependencies>
 
 	<build>
