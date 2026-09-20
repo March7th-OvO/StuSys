@@ -22,8 +22,9 @@ public class StudentServiceImpl implements StudentService {
     }
     
     @Override
-    public void addStudent(Student student) {
+    public Integer addStudent(Student student) {
         studentMapper.insert(student);
+        return student.getId();
     }
     
     @Override

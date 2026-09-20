@@ -6,6 +6,6 @@ import com.furinafans.stusys.entity.Student;
 
 public interface StudentService {
     List<Student> listAll();
-    void addStudent(Student student);
+    Integer addStudent(Student student);
     Student getStudentById(Integer id);
 }
