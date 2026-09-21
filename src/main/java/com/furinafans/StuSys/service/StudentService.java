@@ -1,7 +1,5 @@
 package com.furinafans.stusys.service;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.entity.Student;
 

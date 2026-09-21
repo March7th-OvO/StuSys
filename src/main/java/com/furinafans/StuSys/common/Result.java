@@ -5,6 +5,7 @@ package com.furinafans.stusys.common;
 
 public class Result<T> {
     private static final Integer SUCCESS = 200;
+    public static final Integer PARAM_ERROR = 400 ;
     private static final Integer FAIL = 500;
 
     private static final String SUCCESS_MSG = "success";
@@ -52,11 +53,15 @@ public class Result<T> {
     
     //失败 传默认失败消息
     public static <T> Result<T> fail(){
-        return new Result<>(FAIL,FAIL_MSG);
+        return fail(FAIL,FAIL_MSG);
     }
 
     //失败 传自定义失败消息
     public static <T> Result<T> fail(String msg){
-        return new Result<>(FAIL,msg);
+        return fail(FAIL,msg);
+    }
+
+    public static <T> Result <T> fail (Integer code, String msg){
+        return new Result<>(code, msg);
     }
 }
