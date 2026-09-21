@@ -1,5 +1,6 @@
 package com.furinafans.stusys.service.serviceImpl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.Result;
@@ -33,15 +34,26 @@ public class StudentServiceImpl implements StudentService {
             throw new BizException(ErrorCode.PARAM_ERROR, "学生学号不能为null或空格");
         }
 
-        if (stu.getClassId() <= 0) {
+        if (stu.getClassId() == null || stu.getClassId() <= 0) {
             throw new BizException(ErrorCode.PARAM_ERROR, "班级Id不能小于等于0");
         }
 
+        //去除Name和Number的多余空格
         String name = stu.getName().strip();
         stu.setName(name);
+        String num = stu.getNumber().strip();
+        stu.setNumber(num);
+        
+        //使用LambdaQueryWrapper查询是否有相同Number存在
+        LambdaQueryWrapper<Student> w = new LambdaQueryWrapper<>();
+        w.eq(Student::getNumber, num);
+        if (studentMapper.selectCount(w) > 0) {
+            throw new BizException(ErrorCode.CONFLICT, "新增失败，此学号已存在！");
+        }
 
-        Integer result = studentMapper.insert(stu);
-        if (result == 0) {
+        //插入失败，修改0行校验
+        Integer result2 = studentMapper.insert(stu);
+        if (result2 == 0) {
             throw new BizException(ErrorCode.SERVER_ERROR, "新增学生失败！");
         }
         return stu.getId();
