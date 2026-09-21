@@ -1,4 +1,4 @@
-package com.furinafans.stusys.common.enums;
+package com.furinafans.stusys.common.constant;
 
 public final class ErrorCode {
     //请求成功

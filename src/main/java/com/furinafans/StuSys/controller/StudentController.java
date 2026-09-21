@@ -1,5 +1,6 @@
 package com.furinafans.stusys.controller;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.service.StudentService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/students")
@@ -27,9 +30,9 @@ public class StudentController {
         return Result.success(studentService.addStudent(student));
     }
     
-    @GetMapping("/{id}")
-    public Result<Student> getStudentById(@PathVariable Integer id) {
-        return Result.success(studentService.getStudentById(id));
+    @GetMapping("/{number}")
+    public Result<Student> getStudentById(@PathVariable("number") String number) {
+        return Result.success(studentService.getStudentByNum(number));
     }
 
     @GetMapping
@@ -37,5 +40,17 @@ public class StudentController {
         @RequestParam(defaultValue = "1") Integer pageNum, 
         @RequestParam(defaultValue = "10") Integer pageSize){
         return Result.success(studentService.page(pageNum, pageSize));
+    }
+
+    @DeleteMapping("/{number}") 
+    public Result<Void> delete(@PathVariable("number") String number){
+        studentService.delete(number);
+        return Result.success();
+    }
+
+    @PutMapping("/{number}")
+    public Result<Void> update(@PathVariable("number") String number, @RequestBody Student newStu) {
+        studentService.updateStudent(number, newStu);
+        return Result.success();
     }
 }

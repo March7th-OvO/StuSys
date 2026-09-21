@@ -20,10 +20,11 @@ CREATE TABLE IF NOT EXISTS classes (
 CREATE TABLE IF NOT EXISTS students (
     id BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(20) NOT NULL COMMENT '姓名',
-    number VARCHAR(20) NOT NULL UNIQUE COMMENT '学号',
+    number VARCHAR(20) NOT NULL COMMENT '学号',
     class_id BIGINT UNSIGNED NOT NULL COMMENT '班级ID',
     CONSTRAINT pk_students PRIMARY KEY (id),
-    CONSTRAINT fk_students_classes FOREIGN KEY (class_id) REFERENCES classes(id)
+    CONSTRAINT fk_students_classes FOREIGN KEY (class_id) REFERENCES classes(id),
+    CONSTRAINT uk_number UNIQUE (number);
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '学生表';
 
 CREATE TABLE IF NOT EXISTS courses (

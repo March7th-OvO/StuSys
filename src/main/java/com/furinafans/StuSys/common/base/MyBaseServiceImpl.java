@@ -1,5 +1,5 @@
 package com.furinafans.stusys.common.base;
 
-public class BaseService {
-    
+public class MyBaseServiceImpl {
+
 }
