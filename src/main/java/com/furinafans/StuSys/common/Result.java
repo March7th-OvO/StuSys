@@ -1,12 +1,12 @@
 package com.furinafans.stusys.common;
 
-
-
+import com.furinafans.stusys.common.enums.ErrorCode;
 
 public class Result<T> {
-    private static final Integer SUCCESS = 200;
-    public static final Integer PARAM_ERROR = 400 ;
-    private static final Integer FAIL = 500;
+    private static final Integer SUCCESS = ErrorCode.SUCCESS;
+    public static final Integer PARAM_ERROR = ErrorCode.PARAM_ERROR;
+    public static final Integer NOT_FOUND = ErrorCode.NOT_FOUND;
+    public static final Integer FAIL = ErrorCode.SERVER_ERROR;
 
     private static final String SUCCESS_MSG = "success";
     private static final String FAIL_MSG = "fail";
