@@ -11,4 +11,5 @@ public final class ErrorCode {
 
     //服务端请求失败
     public static final Integer SERVER_ERROR = 500;
+    public static final Integer DATA_ERROR = 5000;
 }

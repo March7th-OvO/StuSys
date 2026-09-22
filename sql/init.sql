@@ -30,8 +30,10 @@ CREATE TABLE IF NOT EXISTS students (
 CREATE TABLE IF NOT EXISTS courses (
     id BIGINT UNSIGNED AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(20) NOT NULL COMMENT '课程名',
-    code VARCHAR(20) NOT NULL UNIQUE COMMENT '课程代码',
-    CONSTRAINT pk_courses PRIMARY KEY (id)
+    code VARCHAR(20) NOT NULL COMMENT '课程代码',
+    CONSTRAINT pk_courses PRIMARY KEY (id),
+    CONSTRAINT uk_scores_name UNIQUE (name),
+    CONSTRAINT uk_scores_code UNIQUE (code);
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '课程表';
 
 CREATE TABLE IF NOT EXISTS scores (
