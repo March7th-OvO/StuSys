@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class StudentServiceImpl implements StudentService{
     
     private final StudentMapper studentMapper;
-    
+
     //插入新学生
     @Override
     public Integer addStudent(Student stu) {
@@ -94,6 +94,9 @@ public class StudentServiceImpl implements StudentService{
     //根据Number学号修改Student
     @Override 
     public void updateStudent(String num, Student stu){
+        if (num == null) {
+            throw new BizException(ErrorCode.PARAM_ERROR, "输入学号不能为null");
+        }
         if (stu == null) {
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后学生不能为null");
         }
@@ -110,6 +113,8 @@ public class StudentServiceImpl implements StudentService{
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后班级Id不能小于等于0");
         }
 
+        //去除number空格多余的空格
+        stu.setNumber(stu.getNumber().strip());
 
         //使用LambdaQueryWrapper查询是否有相同Number存在
         // 查冲突：用ne排除除了自己，还有谁占用了新学号
