@@ -104,6 +104,16 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course searchCourseByCode(String code) {
-        return courseMapper.selectOne(new LambdaQueryWrapper<Course>().eq(Course::getCode, code));
+        if (code == null || code.isBlank()){
+            throw new BizException(ErrorCode.PARAM_ERROR, "Code不能为空！");
+        }
+
+        String codee = code.strip();
+        
+        Course result = courseMapper.selectOne(new LambdaQueryWrapper<Course>().eq(Course::getCode, codee));
+        if (result == null){
+            throw new BizException(ErrorCode.NOT_FOUND, "该Course不存在！");
+        }
+        return result;
     }
 }
