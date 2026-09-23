@@ -1,7 +1,5 @@
 package com.furinafans.stusys.service.serviceImpl;
 
-import java.util.concurrent.CountDownLatch;
-
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -102,5 +100,10 @@ public class CourseServiceImpl implements CourseService {
         if (update < 1) {
             throw new BizException(ErrorCode.NOT_FOUND, name + "未找到，修改失败！");
         }
+    }
+
+    @Override
+    public Course searchCourseByCode(String code) {
+        return courseMapper.selectOne(new LambdaQueryWrapper<Course>().eq(Course::getCode, code));
     }
 }

@@ -19,38 +19,37 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @RestController
 @RequestMapping("/students")
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 public class StudentController {
-    
+
     private final StudentService studentService;
-    
+
     @PostMapping
     public Result<Integer> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
         Student student = Student.builder()
-        .name(studentDTO.getName())
-        .number(studentDTO.getNumber())
-        .classId(studentDTO.getClassId())
-        .build();
+                .name(studentDTO.getName())
+                .number(studentDTO.getNumber())
+                .classId(studentDTO.getClassId())
+                .build();
         return Result.success(studentService.addStudent(student));
     }
-    
+
     @GetMapping("/{number}")
     public Result<Student> getStudentById(@PathVariable("number") String number) {
-        return Result.success(studentService.getStudentByNum(number));
+        return Result.success(studentService.searchStuByNum(number));
     }
 
     @GetMapping
     public Result<IPage<Student>> page(
-        @RequestParam(defaultValue = "1") Integer pageNum, 
-        @RequestParam(defaultValue = "10") Integer pageSize){
+            @RequestParam(defaultValue = "1") Integer pageNum,
+            @RequestParam(defaultValue = "10") Integer pageSize) {
         return Result.success(studentService.page(pageNum, pageSize));
     }
 
-    @DeleteMapping("/{number}") 
-    public Result<Void> delete(@PathVariable("number") String number){
+    @DeleteMapping("/{number}")
+    public Result<Void> delete(@PathVariable("number") String number) {
         studentService.delete(number);
         return Result.success();
     }
@@ -58,10 +57,10 @@ public class StudentController {
     @PutMapping("/{number}")
     public Result<Void> update(@PathVariable("number") String number, @RequestBody @Valid StudentDTO studentDTO) {
         Student newStu = Student.builder()
-        .name(studentDTO.getName())
-        .number(studentDTO.getNumber())
-        .classId(studentDTO.getClassId())
-        .build();
+                .name(studentDTO.getName())
+                .number(studentDTO.getNumber())
+                .classId(studentDTO.getClassId())
+                .build();
         studentService.updateStudent(number, newStu);
         return Result.success();
     }

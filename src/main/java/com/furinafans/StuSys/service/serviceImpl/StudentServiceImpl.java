@@ -59,7 +59,7 @@ public class StudentServiceImpl implements StudentService {
 
     // 根据学号Number查询学生
     @Override
-    public Student getStudentByNum(String num) {
+    public Student searchStuByNum(String num) {
         Student stu = studentMapper.selectOne(new LambdaQueryWrapper<Student>().eq(Student::getNumber, num));
         if (stu == null) {
             throw new BizException(ErrorCode.NOT_FOUND, "此学生不存在！");

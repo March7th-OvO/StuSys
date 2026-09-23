@@ -15,6 +15,8 @@ import com.furinafans.stusys.service.CourseService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController 
 @RequestMapping("/courses")
@@ -46,4 +48,10 @@ public class CourseController {
         courseService.updateCourse(name, course);
         return Result.success();
     }
+
+    @GetMapping("/{code}")
+    public Result<Course> searchCourseByCode(@PathVariable("code") String code) {
+        return Result.success(courseService.searchCourseByCode(code));
+    }
+    
 }
