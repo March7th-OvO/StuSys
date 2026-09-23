@@ -1,6 +1,8 @@
 package com.furinafans.stusys.handler;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,6 +26,13 @@ public class GlobalExceptionHandler {
     public Result<Void> handleDataAccessException(DataAccessException e){
         log.error("数据库异常:code = {}, msg = {}", ErrorCode.DATA_ERROR, e.getMessage(), e);
         return Result.fail(ErrorCode.DATA_ERROR, "数据库异常");
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<Void> handValidationException(MethodArgumentNotValidException e){
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        String msg = fieldError.getDefaultMessage();
+        return Result.fail(ErrorCode.PARAM_ERROR, msg);
     }
 
     @ExceptionHandler(Exception.class) 

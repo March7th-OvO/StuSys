@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.furinafans.stusys.common.Result;
+import com.furinafans.stusys.dto.CourseDTO;
 import com.furinafans.stusys.entity.Course;
 import com.furinafans.stusys.service.CourseService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController 
@@ -21,7 +23,10 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping
-    public Result<Integer> addCourse(@RequestBody Course course){
+    public Result<Integer> addCourse(@RequestBody @Valid CourseDTO courseDTO){
+        Course course = new Course();
+        course.setName(courseDTO.getName());
+        course.setCode(courseDTO.getCode());
         return Result.success(courseService.addCourse(course));
     }
 
@@ -32,7 +37,10 @@ public class CourseController {
     }
 
     @PutMapping("/{name}")
-    public Result<Void> updateCourse(@PathVariable("name") String name, @RequestBody  Course course){
+    public Result<Void> updateCourse(@PathVariable("name") String name, @RequestBody @Valid CourseDTO courseDTO){
+        Course course = new Course();
+        course.setName(courseDTO.getName());
+        course.setCode(courseDTO.getCode());
         courseService.updateCourse(name, course);
         return Result.success();
     }
