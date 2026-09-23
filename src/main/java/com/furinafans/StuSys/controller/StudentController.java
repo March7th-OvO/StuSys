@@ -29,8 +29,8 @@ public class StudentController {
     @PostMapping
     public Result<Integer> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
         Student student = Student.builder()
-                .name(studentDTO.getName())
-                .number(studentDTO.getNumber())
+                .name(studentDTO.getName().strip())
+                .number(studentDTO.getNumber().strip())
                 .classId(studentDTO.getClassId())
                 .build();
         return Result.success(studentService.addStudent(student));
@@ -57,8 +57,8 @@ public class StudentController {
     @PutMapping("/{number}")
     public Result<Void> update(@PathVariable("number") String number, @RequestBody @Valid StudentDTO studentDTO) {
         Student newStu = Student.builder()
-                .name(studentDTO.getName())
-                .number(studentDTO.getNumber())
+                .name(studentDTO.getName().strip())
+                .number(studentDTO.getNumber().strip())
                 .classId(studentDTO.getClassId())
                 .build();
         studentService.updateStudent(number, newStu);

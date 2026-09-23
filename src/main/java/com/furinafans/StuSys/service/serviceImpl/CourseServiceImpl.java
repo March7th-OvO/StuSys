@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.constant.ErrorCode;
 import com.furinafans.stusys.entity.Course;
 import com.furinafans.stusys.exception.BizException;
@@ -30,10 +32,6 @@ public class CourseServiceImpl implements CourseService {
         if (course.getCode() == null || course.getCode().isBlank()) {
             throw new BizException(ErrorCode.PARAM_ERROR, "新增CourseCode不能为null");
         }
-
-        // 去除Name和Code中的空格
-        course.setName(course.getName().strip());
-        course.setCode(course.getCode().strip());
 
         LambdaQueryWrapper<Course> w = new LambdaQueryWrapper<>();
         w.eq(Course::getName, course.getName())
@@ -84,11 +82,6 @@ public class CourseServiceImpl implements CourseService {
             throw new BizException(ErrorCode.PARAM_ERROR, "新Name不能为空");
         }
 
-        // 清除请求体的id、去除Name和Code的空格
-        course.setId(null);
-        course.setName(course.getName().strip());
-        course.setCode(course.getCode().strip());
-
         if (courseMapper.selectCount(new LambdaQueryWrapper<Course>()
                 .eq(Course::getName, course.getName())
                 .ne(Course::getName, name)) > 0) {
@@ -115,5 +108,17 @@ public class CourseServiceImpl implements CourseService {
             throw new BizException(ErrorCode.NOT_FOUND, "该Course不存在！");
         }
         return result;
+    }
+
+    @Override 
+    public IPage<Course> page(Integer pageNum, Integer pageSize){
+        if (pageSize <= 0 || pageSize > 200) {
+            throw new BizException(ErrorCode.PARAM_ERROR, "pageSize必须在 1~200 之间");
+        }
+
+        if (pageNum <= 0) {
+            throw new BizException(ErrorCode.PARAM_ERROR, "pageNum不能小于等于0");
+        }
+        return courseMapper.selectPage(new Page<Course>(pageNum, pageSize), null);
     }
 }

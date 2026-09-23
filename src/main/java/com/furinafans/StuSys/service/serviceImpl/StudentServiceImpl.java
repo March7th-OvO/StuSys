@@ -39,14 +39,10 @@ public class StudentServiceImpl implements StudentService {
             throw new BizException(ErrorCode.PARAM_ERROR, "班级Id不能小于等于0");
         }
 
-        // 去除Name和Number的多余空格
-        String name = stu.getName().strip();
-        stu.setName(name);
-        String num = stu.getNumber().strip();
-        stu.setNumber(num);
+        stu.setNumber(stu.getNumber());
 
         // 使用LambdaQueryWrapper查询是否有相同Number存在
-        if (studentMapper.selectCount(new LambdaQueryWrapper<Student>().eq(Student::getNumber, num)) > 0) {
+        if (studentMapper.selectCount(new LambdaQueryWrapper<Student>().eq(Student::getNumber, stu.getNumber())) > 0) {
             throw new BizException(ErrorCode.CONFLICT, "新增失败，此学号已存在！");
         }
 
@@ -112,9 +108,6 @@ public class StudentServiceImpl implements StudentService {
         if (stu.getClassId() == null || stu.getClassId() <= 0) {
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后班级Id不能小于等于0");
         }
-
-        // 去除number空格多余的空格
-        stu.setNumber(stu.getNumber().strip());
 
         // 使用LambdaQueryWrapper查询是否有相同Number存在
         // 查冲突：用ne排除除了自己，还有谁占用了新学号
