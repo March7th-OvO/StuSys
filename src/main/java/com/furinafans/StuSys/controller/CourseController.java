@@ -24,9 +24,10 @@ public class CourseController {
 
     @PostMapping
     public Result<Integer> addCourse(@RequestBody @Valid CourseDTO courseDTO){
-        Course course = new Course();
-        course.setName(courseDTO.getName());
-        course.setCode(courseDTO.getCode());
+        Course course = Course.builder()
+        .name(courseDTO.getName())
+        .code(courseDTO.getCode())
+        .build();
         return Result.success(courseService.addCourse(course));
     }
 
@@ -38,9 +39,10 @@ public class CourseController {
 
     @PutMapping("/{name}")
     public Result<Void> updateCourse(@PathVariable("name") String name, @RequestBody @Valid CourseDTO courseDTO){
-        Course course = new Course();
-        course.setName(courseDTO.getName());
-        course.setCode(courseDTO.getCode());
+        Course course = Course.builder()
+        .name(courseDTO.getName())
+        .code(courseDTO.getCode())
+        .build();
         courseService.updateCourse(name, course);
         return Result.success();
     }

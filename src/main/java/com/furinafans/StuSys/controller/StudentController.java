@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
+import com.furinafans.stusys.dto.StudentDTO;
 import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.service.StudentService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -26,7 +28,12 @@ public class StudentController {
     private final StudentService studentService;
     
     @PostMapping
-    public Result<Integer> addStudent(@RequestBody Student student) {
+    public Result<Integer> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
+        Student student = Student.builder()
+        .name(studentDTO.getName())
+        .number(studentDTO.getNumber())
+        .classId(studentDTO.getClassId())
+        .build();
         return Result.success(studentService.addStudent(student));
     }
     
@@ -49,7 +56,12 @@ public class StudentController {
     }
 
     @PutMapping("/{number}")
-    public Result<Void> update(@PathVariable("number") String number, @RequestBody Student newStu) {
+    public Result<Void> update(@PathVariable("number") String number, @RequestBody @Valid StudentDTO studentDTO) {
+        Student newStu = Student.builder()
+        .name(studentDTO.getName())
+        .number(studentDTO.getNumber())
+        .classId(studentDTO.getClassId())
+        .build();
         studentService.updateStudent(number, newStu);
         return Result.success();
     }
