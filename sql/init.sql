@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS students (
     class_id BIGINT UNSIGNED NOT NULL COMMENT '班级ID',
     CONSTRAINT pk_students PRIMARY KEY (id),
     CONSTRAINT fk_students_classes FOREIGN KEY (class_id) REFERENCES classes(id),
-    CONSTRAINT uk_number UNIQUE (number);
+    CONSTRAINT uk_number UNIQUE (number),
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '学生表';
 
 CREATE TABLE IF NOT EXISTS courses (
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS courses (
     code VARCHAR(20) NOT NULL COMMENT '课程代码',
     CONSTRAINT pk_courses PRIMARY KEY (id),
     CONSTRAINT uk_scores_name UNIQUE (name),
-    CONSTRAINT uk_scores_code UNIQUE (code);
+    CONSTRAINT uk_scores_code UNIQUE (code),
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '课程表';
 
 CREATE TABLE IF NOT EXISTS scores (
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS scores (
     CONSTRAINT pk_scores PRIMARY KEY (id),
     CONSTRAINT fk_scores_students FOREIGN KEY (student_id) REFERENCES students(id),
     CONSTRAINT fk_scores_courses FOREIGN KEY (course_id) REFERENCES courses(id),
-    CONSTRAINT uk_scores_term UNIQUE (student_id, course_id, term, exam_type)
+    CONSTRAINT uk_scores_term UNIQUE (student_id, course_id, academic_year, term, exam_type)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '成绩表';
 
 CREATE TABLE IF NOT EXISTS student_course (
