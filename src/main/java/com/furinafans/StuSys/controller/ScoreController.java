@@ -13,19 +13,18 @@ import com.furinafans.stusys.service.ScoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/scores")
 @RequiredArgsConstructor
+@Validated 
 public class ScoreController {
     private final ScoreService scoreService;
 
@@ -43,14 +42,14 @@ public class ScoreController {
         return Result.success(scoreService.addScore(score));
     }
 
-    @DeleteMapping
-    public Result<Boolean> delScore(@RequestBody Score score) {
-        return Result.success(scoreService.delScore(score));
+    @DeleteMapping("/{id}")
+    public Result<Boolean> delScore(@PathVariable Long id) {
+        return Result.success(scoreService.delScore(id));
     }
 
-    @PutMapping
-    public Result<Void> updateScore(@RequestBody @Valid Score score) {
-        scoreService.updateScore(score);
+    @PutMapping("/{id}")
+    public Result<Void> updateScore(@PathVariable Long id, @RequestBody @Valid Score score) {
+        scoreService.updateScore(id, score);
         return Result.success();
     }
 

@@ -8,9 +8,9 @@ import com.furinafans.stusys.entity.Score;
 public interface ScoreService {
     boolean addScore(Score score);
 
-    boolean delScore(Score score);
+    boolean delScore(Long id);
 
-    void updateScore(Score score);
+    void updateScore(Long id, Score score);
 
     IPage<Score> selectScoreByStuNum(Page<Score> page, String number);
 }

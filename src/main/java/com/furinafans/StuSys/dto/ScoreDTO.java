@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor 
 @NoArgsConstructor 
 public class ScoreDTO {
+
+    @PositiveOrZero 
     private BigDecimal score;
     @NotNull (message = "课程id不可为空")
-    private Integer courseId;
+    private Long courseId;
     @NotNull(message = "学生id不可为空") 
-    private Integer studentId;
+    private Long studentId;
     @NotBlank (message = "学年不能为空")
     private String academicYear;
     @NotBlank (message = "学期不能为空")
