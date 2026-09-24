@@ -20,7 +20,7 @@ public class CourseServiceImpl implements CourseService {
     private final CourseMapper courseMapper;
 
     @Override
-    public Integer addCourse(Course course) {
+    public Long addCourse(Course course) {
         if (course == null) throw new BizException(ErrorCode.PARAM_ERROR, "新增Course不能为null");
         if (course.getName() == null || course.getName().isBlank()) throw new BizException(ErrorCode.PARAM_ERROR, "新增CourseName不能为null");
         if (course.getCode() == null || course.getCode().isBlank()) throw new BizException(ErrorCode.PARAM_ERROR, "新增CourseCode不能为null");

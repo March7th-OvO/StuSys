@@ -27,7 +27,7 @@ public class CourseController {
 
     //插入课程
     @PostMapping
-    public Result<Integer> addCourse(@RequestBody @Valid CourseDTO courseDTO) {
+    public Result<Long> addCourse(@RequestBody @Valid CourseDTO courseDTO) {
         Course course = Course.builder()
                 .name(courseDTO.getName().strip())
                 .code(courseDTO.getCode().strip())

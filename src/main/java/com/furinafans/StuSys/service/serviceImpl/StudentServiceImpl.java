@@ -22,7 +22,7 @@ public class StudentServiceImpl implements StudentService {
 
     // 插入新学生
     @Override
-    public Integer addStudent(Student stu) {
+    public Long addStudent(Student stu) {
         if (stu == null) throw new BizException(ErrorCode.PARAM_ERROR, "新增学生不能为null");
         if (stu.getName() == null || stu.getName().isBlank()) throw new BizException(ErrorCode.PARAM_ERROR, "学生姓名不能为null或空格");
         if (stu.getNumber() == null || stu.getNumber().isBlank()) throw new BizException(ErrorCode.PARAM_ERROR, "学生学号不能为null或空格");

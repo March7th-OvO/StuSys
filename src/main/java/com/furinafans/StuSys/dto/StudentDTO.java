@@ -15,7 +15,7 @@ public class StudentDTO {
 
     @NotNull (message = "ClassId不能为空")
     @Positive (message = "ClassId必须大于0") 
-    private Integer classId;
+    private Long classId;
     
     @NotBlank(message = "Name不能为空")
     @Size(max = 20,message = "Name长度不能超过20个字符")

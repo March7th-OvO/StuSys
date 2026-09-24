@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.entity.Course;
 
 public interface CourseService {
-    Integer addCourse(Course course);
+    Long addCourse(Course course);
     void delCourse(String name);
     void updateCourse(String name, Course course);
     Course searchCourseByCode(String code);

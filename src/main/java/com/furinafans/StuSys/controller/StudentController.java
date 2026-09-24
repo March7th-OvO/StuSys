@@ -27,7 +27,7 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public Result<Integer> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
+    public Result<Long> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
         Student student = Student.builder()
                 .name(studentDTO.getName().strip())
                 .number(studentDTO.getNumber().strip())

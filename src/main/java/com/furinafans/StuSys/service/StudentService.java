@@ -5,7 +5,7 @@ import com.furinafans.stusys.entity.Student;
 
 public interface StudentService {
 
-    Integer addStudent(Student student);
+    Long addStudent(Student student);
 
     /**
      * 根据学号查询学生信息
