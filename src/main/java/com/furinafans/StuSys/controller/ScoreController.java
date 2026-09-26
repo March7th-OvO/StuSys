@@ -29,17 +29,8 @@ public class ScoreController {
     private final ScoreService scoreService;
 
     @PostMapping
-    public Result<Boolean> addScore(@RequestBody @Valid ScoreDTO scoreDTO) {
-        Score score = Score.builder()
-                .score(scoreDTO.getScore())
-                .courseId(scoreDTO.getCourseId())
-                .studentId(scoreDTO.getStudentId())
-                .academicYear(scoreDTO.getAcademicYear())
-                .term(scoreDTO.getTerm())
-                .examType(scoreDTO.getExamType())
-                .build();
-
-        return Result.success(scoreService.addScore(score));
+    public Result<Score> addScore(@RequestBody @Valid ScoreDTO scoreDTO) {
+        return Result.success(scoreService.addScore(scoreDTO.toEntity()));
     }
 
     @DeleteMapping("/{id}")
@@ -48,9 +39,8 @@ public class ScoreController {
     }
 
     @PutMapping("/{id}")
-    public Result<Void> updateScore(@PathVariable Long id, @RequestBody @Valid Score score) {
-        scoreService.updateScore(id, score);
-        return Result.success();
+    public Result<Score> updateScore(@PathVariable Long id, @RequestBody @Valid ScoreDTO scoreDTO) {
+        return Result.success(scoreService.updateScore(id, scoreDTO.toEntity()));
     }
 
     @GetMapping("/{number}")

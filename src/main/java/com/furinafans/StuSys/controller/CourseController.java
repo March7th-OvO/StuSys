@@ -27,12 +27,8 @@ public class CourseController {
 
     //插入课程
     @PostMapping
-    public Result<Long> addCourse(@RequestBody @Valid CourseDTO courseDTO) {
-        Course course = Course.builder()
-                .name(courseDTO.getName().strip())
-                .code(courseDTO.getCode().strip())
-                .build();
-        return Result.success(courseService.addCourse(course));
+    public Result<Course> addCourse(@RequestBody @Valid CourseDTO courseDTO) {
+        return Result.success(courseService.addCourse(courseDTO.toEntity()));
     }
 
     //根据课程名称删除
@@ -44,13 +40,8 @@ public class CourseController {
 
     //修改课程信息
     @PutMapping("/{name}")
-    public Result<Void> updateCourse(@PathVariable("name") String name, @RequestBody @Valid CourseDTO courseDTO) {
-        Course course = Course.builder()
-                .name(courseDTO.getName().strip())
-                .code(courseDTO.getCode().strip())
-                .build();
-        courseService.updateCourse(name, course);
-        return Result.success();
+    public Result<Course> updateCourse(@PathVariable("name") String name, @RequestBody @Valid CourseDTO courseDTO) {
+        return Result.success(courseService.updateCourse(name, courseDTO.toEntity()));
     }
 
     //根据code查询课程

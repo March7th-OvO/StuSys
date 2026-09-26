@@ -27,13 +27,19 @@ public class StudentController {
     private final StudentService studentService;
 
     @PostMapping
-    public Result<Long> addStudent(@RequestBody @Valid StudentDTO studentDTO) {
-        Student student = Student.builder()
-                .name(studentDTO.getName().strip())
-                .number(studentDTO.getNumber().strip())
-                .classId(studentDTO.getClassId())
-                .build();
-        return Result.success(studentService.addStudent(student));
+    public Result<Student> addStudent(@RequestBody @Valid StudentDTO stuDTO) {
+        return Result.success(studentService.addStu(stuDTO.toEntity()));
+    }
+
+    @DeleteMapping("/{number}")
+    public Result<Void> delete(@PathVariable("number") String number) {
+        studentService.delete(number);
+        return Result.success();
+    }
+
+    @PutMapping("/{number}")
+    public Result<Student> update(@PathVariable("number") String number, @RequestBody @Valid StudentDTO stuDTO) {
+        return Result.success(studentService.updateStu(number, stuDTO.toEntity()));
     }
 
     @GetMapping("/{number}")
@@ -46,22 +52,5 @@ public class StudentController {
             @RequestParam(defaultValue = "1") Integer pageNum,
             @RequestParam(defaultValue = "10") Integer pageSize) {
         return Result.success(studentService.page(pageNum, pageSize));
-    }
-
-    @DeleteMapping("/{number}")
-    public Result<Void> delete(@PathVariable("number") String number) {
-        studentService.delete(number);
-        return Result.success();
-    }
-
-    @PutMapping("/{number}")
-    public Result<Void> update(@PathVariable("number") String number, @RequestBody @Valid StudentDTO studentDTO) {
-        Student newStu = Student.builder()
-                .name(studentDTO.getName().strip())
-                .number(studentDTO.getNumber().strip())
-                .classId(studentDTO.getClassId())
-                .build();
-        studentService.updateStudent(number, newStu);
-        return Result.success();
     }
 }
