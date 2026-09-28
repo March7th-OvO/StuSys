@@ -2,17 +2,16 @@ package com.furinafans.stusys.service.serviceImpl;
 
 import org.springframework.stereotype.Service;
 
-import com.furinafans.stusys.mapper.StudentMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.constant.ErrorCode;
+import com.furinafans.stusys.dto.ScorePageDTO;
 import com.furinafans.stusys.entity.Score;
-import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.exception.BizException;
 import com.furinafans.stusys.mapper.ScoreMapper;
 import com.furinafans.stusys.service.ScoreService;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,23 +19,12 @@ import lombok.RequiredArgsConstructor;
 public class ScoreServiceImpl implements ScoreService {
     // 注入mapper
     private final ScoreMapper scoreMapper;
-    private final StudentMapper studentMapper;
 
     @Override
     public Score addScore(Score score) {
         // 校验传入值是否合法
         if (score == null)
             throw new BizException(ErrorCode.PARAM_ERROR, "新增Score不能为空");
-
-        // // 校验插入值是否已经存在
-        // if (scoreMapper.exists(new LambdaQueryWrapper<Score>()
-        //         .eq(Score::getStudentId, score.getStudentId())
-        //         .eq(Score::getCourseId, score.getCourseId())
-        //         .eq(Score::getAcademicYear, score.getAcademicYear())
-        //         .eq(Score::getTerm, score.getTerm())
-        //         .eq(Score::getExamType, score.getExamType()))) {
-        //     throw new BizException(ErrorCode.CONFLICT, "此成绩已经存在！");
-        // }
 
         // 校验唯一性
         if (scoreMapper.insert(score) == 0)
@@ -75,19 +63,16 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public IPage<Score> selectScoreByStuNum(Page<Score> page, String number) {
-        // 校验Number是否合法
-        if (number == null || number.isBlank())
-            throw new BizException(ErrorCode.PARAM_ERROR, "查询的Number不能为空！");
-
-        // 校验Number是否存在
-        Student student = studentMapper.selectOne(new LambdaQueryWrapper<Student>()
-                .select(Student::getId)
-                .eq(Student::getNumber, number));
-        if (student == null)
-            throw new BizException(ErrorCode.NOT_FOUND, "未查询到指定Student");
-
-        return scoreMapper.selectPage(page, new LambdaQueryWrapper<Score>()
-                .eq(Score::getStudentId, student.getId()));
+    public IPage<Score> page(ScorePageDTO pageDTO) {
+        LambdaQueryWrapper<Score> scoreW = new LambdaQueryWrapper<>();
+        scoreW
+                .eq(Score::getStudentId, pageDTO.getStudentId())
+                .eq(StringUtils.isNotBlank(pageDTO.getAcademicYear()), Score::getAcademicYear,
+                        pageDTO.getAcademicYear())
+                .eq(StringUtils.isNotBlank(pageDTO.getTerm()), Score::getTerm, pageDTO.getTerm())
+                .eq(StringUtils.isNotBlank(pageDTO.getExamType()), Score::getExamType, pageDTO.getExamType())
+                .eq(pageDTO.getCourseId() != null, Score::getCourseId, pageDTO.getCourseId())
+                .orderByAsc(Score::getId);
+        return scoreMapper.selectPage(pageDTO.toPage(), scoreW);
     }
 }

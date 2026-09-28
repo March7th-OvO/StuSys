@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.constant.ErrorCode;
 import com.furinafans.stusys.dto.ClazzPageDTO;
 import com.furinafans.stusys.entity.Clazz;

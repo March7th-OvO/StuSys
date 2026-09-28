@@ -4,15 +4,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data 
 public class BasePageQuery<T> {
     // 分页通常只限制每页的条数，而页码只限制大于0
     @Min (1)
+    @NotNull 
     private Long pageNum = 1L;
+    
     @Max (100) 
     @Min (1)
+    @NotNull 
     private Long pageSize = 10L;
 
     public Page<T> toPage(){

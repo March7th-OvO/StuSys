@@ -1,6 +1,5 @@
 package com.furinafans.stusys.dto;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.entity.Student;
 

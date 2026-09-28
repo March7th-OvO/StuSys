@@ -1,7 +1,7 @@
 package com.furinafans.stusys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.furinafans.stusys.dto.ScorePageDTO;
 import com.furinafans.stusys.entity.Score;
 
 public interface ScoreService {
@@ -11,5 +11,5 @@ public interface ScoreService {
 
     Score updateScore(Long id, Score score);
 
-    IPage<Score> selectScoreByStuNum(Page<Score> page, String number);
+    IPage<Score> page(ScorePageDTO pageDTO);
 }

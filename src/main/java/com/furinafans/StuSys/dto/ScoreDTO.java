@@ -18,16 +18,21 @@ public class ScoreDTO {
 
     @PositiveOrZero
     private BigDecimal score;
-    @NotNull(message = "课程id不可为空")
-    private Long courseId;
+
     @NotNull(message = "学生id不可为空")
     private Long studentId;
+
     @NotBlank(message = "学年不能为空")
     private String academicYear;
+
     @NotBlank(message = "学期不能为空")
     private String term;
+
     @NotBlank(message = "考试类型不能为空")
     private String examType;
+    
+    @NotNull(message = "课程id不可为空")
+    private Long courseId;
 
     public Score toEntity() {
         return Score.builder()

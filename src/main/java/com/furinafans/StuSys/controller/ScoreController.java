@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.Result;
 import com.furinafans.stusys.dto.ScoreDTO;
+import com.furinafans.stusys.dto.ScorePageDTO;
 import com.furinafans.stusys.entity.Score;
 import com.furinafans.stusys.service.ScoreService;
 
@@ -44,8 +44,8 @@ public class ScoreController {
         return Result.success(scoreService.updateScore(id, scoreDTO.toEntity()));
     }
 
-    @GetMapping("/{number}")
-    public Result<IPage<Score>> getScoreByStuNum(Page<Score> page, @PathVariable String number) {
-        return Result.success(scoreService.selectScoreByStuNum(page, number));
+    @GetMapping
+    public Result<IPage<Score>> page(@Valid  ScorePageDTO pageDTO) {
+        return Result.success(scoreService.page(pageDTO));
     }
 }
