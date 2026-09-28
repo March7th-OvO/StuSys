@@ -7,7 +7,7 @@ import com.furinafans.stusys.entity.Score;
 public interface ScoreService {
     Score addScore(Score score);
 
-    boolean delScore(Long id);
+    void delScore(Long id);
 
     Score updateScore(Long id, Score score);
 

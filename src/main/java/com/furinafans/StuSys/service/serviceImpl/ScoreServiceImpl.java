@@ -46,15 +46,13 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public boolean delScore(Long id) {
+    public void delScore(Long id) {
         // 校验ID是否合法
         if (id == null || id < 1)
             throw new BizException(ErrorCode.PARAM_ERROR, "ID不能为空或小于1！");
 
         // 判断删除是否成功
-        if (scoreMapper.deleteById(id) > 0)
-            return true;
-        else
+        if (scoreMapper.deleteById(id) == 0)
             throw new BizException(ErrorCode.NOT_FOUND, "此ID不存在！");
     }
 

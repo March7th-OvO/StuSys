@@ -34,8 +34,9 @@ public class ScoreController {
     }
 
     @DeleteMapping("/{id}")
-    public Result<Boolean> delScore(@PathVariable Long id) {
-        return Result.success(scoreService.delScore(id));
+    public Result<Void> delScore(@PathVariable Long id) {
+        scoreService.delScore(id);
+        return Result.success();
     }
 
     @PutMapping("/{id}")
