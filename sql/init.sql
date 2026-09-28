@@ -14,7 +14,8 @@ CREATE TABLE IF NOT EXISTS classes (
     name VARCHAR(20) NOT NULL COMMENT '班级名',
     grade_id BIGINT UNSIGNED NOT NULL COMMENT '年级ID',
     CONSTRAINT pk_classes PRIMARY KEY (id),
-    CONSTRAINT fk_grades_classes FOREIGN KEY (grade_id) REFERENCES grades(id)
+    CONSTRAINT fk_grades_classes FOREIGN KEY (grade_id) REFERENCES grades(id),
+    CONSTRAINT uk_classes_grade_name UNIQUE (grade_id, name)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '班级表';
 
 CREATE TABLE IF NOT EXISTS students (
