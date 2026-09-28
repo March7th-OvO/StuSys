@@ -55,6 +55,6 @@ public class ClazzServiceImpl implements ClazzService {
         w
                 .like(StringUtils.isNotBlank(clazz.getName()), Clazz::getName, clazz.getName())
                 .eq(clazz.getGradeId() != null, Clazz::getGradeId, clazz.getGradeId());
-        return clazzMapper.selectPage(new Page<Clazz>(pageDTO.getPageNum(), pageDTO.getPageSize()), w);
+        return clazzMapper.selectPage(pageDTO.toPage(), w);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
 import com.furinafans.stusys.dto.StudentDTO;
+import com.furinafans.stusys.dto.StudentPageDTO;
 import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.service.StudentService;
 
@@ -48,9 +49,7 @@ public class StudentController {
     }
 
     @GetMapping
-    public Result<IPage<Student>> page(
-            @RequestParam(defaultValue = "1") Integer pageNum,
-            @RequestParam(defaultValue = "10") Integer pageSize) {
-        return Result.success(studentService.page(pageNum, pageSize));
+    public Result<IPage<Student>> page(@Valid StudentPageDTO pageDTO) {
+        return Result.success(studentService.page(pageDTO));
     }
 }

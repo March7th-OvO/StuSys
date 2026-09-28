@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ClazzPageDTO extends BasePageQuery {
+public class ClazzPageDTO extends BasePageQuery<Clazz> {
     @Size(max = 20, message = "Name长度不能超过20个字符")
     private String name;
 

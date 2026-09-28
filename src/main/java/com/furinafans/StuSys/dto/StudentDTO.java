@@ -29,7 +29,7 @@ public class StudentDTO {
 
     public Student toEntity() {
         return Student.builder()
-                .classId(this.classId)
+                .clazzId(this.classId)
                 .name(this.name.strip())
                 .number(this.number.strip())
                 .build();

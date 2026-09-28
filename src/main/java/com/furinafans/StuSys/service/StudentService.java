@@ -1,6 +1,7 @@
 package com.furinafans.stusys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.furinafans.stusys.dto.StudentPageDTO;
 import com.furinafans.stusys.entity.Student;
 
 public interface StudentService {
@@ -12,5 +13,5 @@ public interface StudentService {
 
     Student searchStuByNum(String number);
 
-    IPage<Student> page(Integer pageNum, Integer pageSize);
+    IPage<Student> page(StudentPageDTO pageDTO);
 }

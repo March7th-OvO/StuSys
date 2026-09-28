@@ -3,14 +3,20 @@ package com.furinafans.stusys.service.serviceImpl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.furinafans.stusys.common.constant.ErrorCode;
+import com.furinafans.stusys.dto.StudentPageDTO;
+import com.furinafans.stusys.entity.Clazz;
 import com.furinafans.stusys.entity.Student;
 import com.furinafans.stusys.exception.BizException;
+import com.furinafans.stusys.mapper.ClazzMapper;
 import com.furinafans.stusys.mapper.StudentMapper;
 import com.furinafans.stusys.service.StudentService;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -19,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class StudentServiceImpl implements StudentService {
     // 注入mapper
     private final StudentMapper studentMapper;
+    private final ClazzMapper clazzMapper;
 
     // 插入新学生
     @Override
@@ -30,7 +37,7 @@ public class StudentServiceImpl implements StudentService {
             throw new BizException(ErrorCode.PARAM_ERROR, "学生姓名不能为null或空格");
         if (stu.getNumber() == null || stu.getNumber().isBlank())
             throw new BizException(ErrorCode.PARAM_ERROR, "学生学号不能为null或空格");
-        if (stu.getClassId() == null || stu.getClassId() <= 0)
+        if (stu.getClazzId() == null || stu.getClazzId() <= 0)
             throw new BizException(ErrorCode.PARAM_ERROR, "班级Id不能小于等于0");
 
         // 校验唯一性
@@ -49,17 +56,48 @@ public class StudentServiceImpl implements StudentService {
         return stu;
     }
 
-    // 分页查询全部学生
+    // 分页查询学生
     @Override
-    public IPage<Student> page(Integer pageNum, Integer pageSize) {
-        if (pageSize <= 0 || pageSize > 200)
-            throw new BizException(ErrorCode.PARAM_ERROR, "pageSize必须在 1~200 之间");
+    public IPage<Student> page(StudentPageDTO pageDTO) {
+        LambdaQueryWrapper<Student> studentW = new LambdaQueryWrapper<>();
+        // 组装Student的查询where语句
+        studentW
+                .like(
+                        StringUtils.isNotBlank(pageDTO.getName()),
+                        Student::getName,
+                        pageDTO.getName())
+                .eq(
+                        StringUtils.isNotBlank(pageDTO.getNumber()),
+                        Student::getNumber,
+                        pageDTO.getNumber())
+                .eq(
+                        pageDTO.getClassId() != null,
+                        Student::getClazzId,
+                        pageDTO.getClassId());
 
-        if (pageNum <= 0)
-            throw new BizException(ErrorCode.PARAM_ERROR, "pageNum不能小于等于0");
+        // 1.校验GradeId是否存在
+        if (pageDTO.getGradeId() != null) {
+            LambdaQueryWrapper<Clazz> clazzW = new LambdaQueryWrapper<>();
+            clazzW
+                    .select(Clazz::getId)
+                    .eq(Clazz::getGradeId, pageDTO.getGradeId());
+            List<Clazz> clazzList = clazzMapper.selectList(clazzW);
 
-        Page<Student> page = new Page<>(pageNum, pageSize);
-        return studentMapper.selectPage(page, null);
+            // 2.如果在Class表中查询不到Grade的id，说明不存在该Grade的学生，直接return空的Page
+            if (clazzList.isEmpty()) {
+                return pageDTO.toPage();
+            }
+
+            // 3.如果能查到Grade对应的Class，就把这些Class放入一个List中，然后在将其中的id提取出来做成一个新的List
+            List<Long> ids = clazzList.stream().map(Clazz::getId).toList();
+
+            // 4.将ids中的classId作为Student表的查询条件
+            studentW.in(Student::getClazzId, ids);
+        }
+        studentW.orderByAsc(Student::getId);
+
+        // 5.studentMapper的selectPage会将查询到的结果回填给Page
+        return studentMapper.selectPage(pageDTO.toPage(), studentW);
     }
 
     // 根据学号(String)删除学生
@@ -82,7 +120,7 @@ public class StudentServiceImpl implements StudentService {
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后学生姓名不能为null或空格");
         if (stu.getNumber() == null || stu.getNumber().isBlank())
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后学生学号不能为null或空格");
-        if (stu.getClassId() == null || stu.getClassId() <= 0)
+        if (stu.getClazzId() == null || stu.getClazzId() <= 0)
             throw new BizException(ErrorCode.PARAM_ERROR, "修改后班级Id不能小于等于0");
 
         // 使用LambdaQueryWrapper查询是否有相同Number存在

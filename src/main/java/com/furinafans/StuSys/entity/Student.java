@@ -1,6 +1,7 @@
 package com.furinafans.stusys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -10,14 +11,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder 
-@NoArgsConstructor 
-@AllArgsConstructor 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @TableName("students")
 public class Student {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long classId;
+    // Java 字段名与数据库列名不同，需要显式映射
+    @TableField("class_id")
+    private Long clazzId;
     private String name;
     private String number;
 }
