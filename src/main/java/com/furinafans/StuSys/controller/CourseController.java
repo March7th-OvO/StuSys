@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
+import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.dto.CourseDTO;
+import com.furinafans.stusys.dto.CoursePageDTO;
 import com.furinafans.stusys.entity.Course;
 import com.furinafans.stusys.service.CourseService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/courses")
@@ -52,9 +53,7 @@ public class CourseController {
 
     //分页查询全部课程
     @GetMapping
-    public Result<IPage<Course>> page(
-            @RequestParam(defaultValue = "1") Integer pageNum,
-            @RequestParam(defaultValue = "10") Integer pageSize) {
-        return Result.success(courseService.page(pageNum, pageSize));
+    public Result<IPage<Course>> page(@Valid CoursePageDTO pageDTO) {
+        return Result.success(courseService.page(pageDTO));
     }
 }

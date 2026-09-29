@@ -5,13 +5,15 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.common.constant.ErrorCode;
+import com.furinafans.stusys.dto.CoursePageDTO;
 import com.furinafans.stusys.entity.Course;
 import com.furinafans.stusys.exception.BizException;
 import com.furinafans.stusys.mapper.CourseMapper;
 import com.furinafans.stusys.service.CourseService;
 
+import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -86,13 +88,12 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
+    // 分页查询，支持根据Name模糊查询
     @Override
-    public IPage<Course> page(Integer pageNum, Integer pageSize) {
-        if (pageSize <= 0 || pageSize > 200)
-            throw new BizException(ErrorCode.PARAM_ERROR, "pageSize必须在 1~200 之间");
-
-        if (pageNum <= 0)
-            throw new BizException(ErrorCode.PARAM_ERROR, "pageNum不能小于等于0");
-        return courseMapper.selectPage(new Page<Course>(pageNum, pageSize), null);
+    public IPage<Course> page(CoursePageDTO pageDTO) {
+        LambdaQueryWrapper<Course> courseW = new LambdaQueryWrapper<>();
+        courseW
+                .like(StringUtils.isNotBlank(pageDTO.getName()), Course::getName, pageDTO.getName());
+        return courseMapper.selectPage(pageDTO.toPage(), courseW);
     }
 }

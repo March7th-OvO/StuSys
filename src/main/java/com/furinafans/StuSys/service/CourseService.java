@@ -1,6 +1,7 @@
 package com.furinafans.stusys.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.furinafans.stusys.dto.CoursePageDTO;
 import com.furinafans.stusys.entity.Course;
 
 public interface CourseService {
@@ -12,5 +13,5 @@ public interface CourseService {
 
     Course searchCourseByCode(String code);
 
-    IPage<Course> page(Integer pageNum, Integer pageSize);
+    IPage<Course> page(CoursePageDTO pageDTO);
 }
