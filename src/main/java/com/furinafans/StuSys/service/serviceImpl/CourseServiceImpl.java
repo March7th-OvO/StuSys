@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.common.constant.ErrorCode;
 import com.furinafans.stusys.dto.CoursePageDTO;
 import com.furinafans.stusys.entity.Course;
@@ -39,16 +38,10 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void delCourse(String name) {
-        if (name == null || name.isBlank())
-            throw new BizException(ErrorCode.PARAM_ERROR, "name不能为空");
-
-        // 去除name中的空格
-        name = name.strip();
-
-        int n = courseMapper.delete(new LambdaQueryWrapper<Course>().eq(Course::getName, name));
+    public void delCourse(Long id) {
+        int n = courseMapper.deleteById(id);
         if (n < 1)
-            throw new BizException(ErrorCode.NOT_FOUND, name + "删除失败！课程不存在");
+            throw new BizException(ErrorCode.NOT_FOUND, "删除失败！课程不存在");
     }
 
     @Override

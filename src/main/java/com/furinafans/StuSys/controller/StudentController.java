@@ -31,9 +31,9 @@ public class StudentController {
         return Result.success(studentService.addStu(stuDTO.toEntity()));
     }
 
-    @DeleteMapping("/{number}")
-    public Result<Void> delete(@PathVariable("number") String number) {
-        studentService.delete(number);
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable("id") Long id) {
+        studentService.delStu(id);
         return Result.success();
     }
 

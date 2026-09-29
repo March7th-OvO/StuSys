@@ -7,7 +7,7 @@ import com.furinafans.stusys.entity.Student;
 public interface StudentService {
     Student addStu(Student student);
 
-    void delete(String number);
+    void delStu(Long id);
 
     Student updateStu(String number, Student student);
 

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
-import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.dto.CourseDTO;
 import com.furinafans.stusys.dto.CoursePageDTO;
 import com.furinafans.stusys.entity.Course;
@@ -33,9 +32,9 @@ public class CourseController {
     }
 
     //根据课程名称删除
-    @DeleteMapping("/{name}")
-    public Result<Void> delCourse(@PathVariable("name") String name) {
-        courseService.delCourse(name);
+    @DeleteMapping("/{id}")
+    public Result<Void> delCourse(@PathVariable("id") Long id) {
+        courseService.delCourse(id);
         return Result.success();
     }
 

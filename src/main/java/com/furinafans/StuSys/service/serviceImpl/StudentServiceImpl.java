@@ -101,8 +101,8 @@ public class StudentServiceImpl implements StudentService {
 
     // 根据学号(String)删除学生
     @Override
-    public void delete(String num) {
-        int n = studentMapper.delete(new LambdaQueryWrapper<Student>().eq(Student::getNumber, num));
+    public void delStu(Long id) {
+        int n = studentMapper.deleteById(id);
         if (n < 1) {
             throw new BizException(ErrorCode.NOT_FOUND, "删除失败，该学生不存在！");
         }
