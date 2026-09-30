@@ -1,5 +1,6 @@
 package com.furinafans.stusys.dto;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.entity.Score;
 
@@ -13,26 +14,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ScorePageDTO extends BasePageQuery<Score> {
+public class ScorePageDto extends BasePageQuery<Score> {
 
-    @NotNull(message = "学生id不可为空")
-    private Long studentId;
-
-    private String academicYear;
-
-    private String term;
+    @NotNull(message = "scId不能为空！")
+    @TableField("student_course_id")
+    private Long scId;
 
     private String examType;
 
-    private Long courseId;
-
     public Score toEntity() {
         return Score.builder()
-                .studentId(this.studentId)
-                .academicYear(this.academicYear)
-                .term(this.term)
+                .scId(this.scId)
                 .examType(this.examType)
-                .courseId(this.courseId)
                 .build();
     }
 }

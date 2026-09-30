@@ -69,7 +69,7 @@ public class StuCouServiceImpl implements StuCouService {
                 .eq(request.getStudentId() != null, StuCou::getStudentId, request.getStudentId())
                 .eq(request.getCourseId() != null, StuCou::getCourseId, request.getCourseId())
                 .eq(StringUtils.isNotBlank(request.getAcademicYear()), StuCou::getAcademicYear,request.getAcademicYear())
-                .eq(StringUtils.isNotBlank(request.getTerm()), StuCou::getTerm, request.getTerm())
+                .eq(request.getTerm() != null, StuCou::getTerm, request.getTerm())
                 .eq(request.getStatus() != null, StuCou::getStatus, request.getStatus())
                 .orderByDesc(StuCou::getId);
         

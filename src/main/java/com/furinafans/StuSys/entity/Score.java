@@ -3,6 +3,7 @@ package com.furinafans.stusys.entity;
 import java.math.BigDecimal;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -20,25 +21,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("scores")
 public class Score {
-    @TableId(type = IdType.AUTO) 
-    @NotNull (message = "主键不能为空")
+    @TableId(type = IdType.AUTO)
+    @NotNull(message = "主键不能为空")
     private Long id;
+    
+    @NotNull(message = "scId不能为空")
+    @TableField ("student_course_id")
+    private Long scId;
 
-    @PositiveOrZero (message = "分数不能小于0")
+    @PositiveOrZero(message = "分数不能小于0")
     private BigDecimal score;
 
-    @NotNull (message = "课程不能为空")
-    private Long courseId;
-
-    @NotNull (message = "学生不能为空")
-    private Long studentId;
-
-    @NotBlank (message = "学年不能为空")
-    private String academicYear;
-    
-    @NotBlank (message = "学期不能为空")
-    private String term;
-    
-    @NotBlank (message = "考试类型不能为空")
+    @NotBlank(message = "考试类型不能为空")
     private String examType;
 }

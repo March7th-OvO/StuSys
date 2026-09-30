@@ -2,6 +2,7 @@ package com.furinafans.stusys.dto;
 
 import java.math.BigDecimal;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.furinafans.stusys.entity.Score;
 
 import jakarta.validation.constraints.NotBlank;
@@ -16,31 +17,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ScoreDTO {
 
-    @PositiveOrZero
+    @NotNull (message = "scId不能为空！")
+    @TableField ("student_course_id")
+    private Long scId;
+
+    @PositiveOrZero(message = "考试成绩不能小于0！")
     private BigDecimal score;
 
-    @NotNull(message = "学生id不可为空")
-    private Long studentId;
-
-    @NotBlank(message = "学年不能为空")
-    private String academicYear;
-
-    @NotBlank(message = "学期不能为空")
-    private String term;
-
-    @NotBlank(message = "考试类型不能为空")
+    @NotBlank(message = "考试类型不能为空！")
     private String examType;
-    
-    @NotNull(message = "课程id不可为空")
-    private Long courseId;
 
     public Score toEntity() {
         return Score.builder()
+                .scId(this.scId)
                 .score(this.score)
-                .courseId(this.courseId)
-                .studentId(this.studentId)
-                .academicYear(this.academicYear.strip())
-                .term(this.term.strip())
                 .examType(this.examType.strip())
                 .build();
     }

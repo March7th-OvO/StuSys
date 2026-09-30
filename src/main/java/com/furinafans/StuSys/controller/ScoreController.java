@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
 import com.furinafans.stusys.dto.ScoreDTO;
-import com.furinafans.stusys.dto.ScorePageDTO;
+import com.furinafans.stusys.dto.ScorePageDto;
 import com.furinafans.stusys.entity.Score;
 import com.furinafans.stusys.service.ScoreService;
 
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping("/scores")
 @RequiredArgsConstructor
-@Validated 
+@Validated
 public class ScoreController {
     private final ScoreService scoreService;
 
@@ -45,7 +45,7 @@ public class ScoreController {
     }
 
     @GetMapping
-    public Result<IPage<Score>> page(@Valid  ScorePageDTO pageDTO) {
+    public Result<IPage<Score>> page(@Valid ScorePageDto pageDTO) {
         return Result.success(scoreService.page(pageDTO));
     }
 }

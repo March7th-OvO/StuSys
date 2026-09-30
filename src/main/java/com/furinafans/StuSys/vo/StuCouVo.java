@@ -19,13 +19,12 @@ public class StuCouVo extends BasePageQuery<StuCou> {
     private Long studentId;
     private Long courseId;
     private String academicYear;
-    private String term;
+    private Integer term;
 
     public StuCou toEntity() {
         return StuCou.builder()
                 .id(this.id)
                 .status(this.status)
-                .score(this.score)
                 .studentId(this.studentId)
                 .courseId(this.courseId)
                 .academicYear(this.academicYear)

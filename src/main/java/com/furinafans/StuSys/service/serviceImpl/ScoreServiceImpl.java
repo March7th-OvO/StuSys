@@ -4,14 +4,14 @@ import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.furinafans.stusys.common.constant.ErrorCode;
-import com.furinafans.stusys.dto.ScorePageDTO;
+import com.furinafans.stusys.dto.ScorePageDto;
 import com.furinafans.stusys.entity.Score;
 import com.furinafans.stusys.exception.BizException;
 import com.furinafans.stusys.mapper.ScoreMapper;
 import com.furinafans.stusys.service.ScoreService;
 
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -63,16 +63,12 @@ public class ScoreServiceImpl implements ScoreService {
     }
 
     @Override
-    public IPage<Score> page(ScorePageDTO pageDTO) {
+    public IPage<Score> page(ScorePageDto pageDto) {
         LambdaQueryWrapper<Score> scoreW = new LambdaQueryWrapper<>();
         scoreW
-                .eq(Score::getStudentId, pageDTO.getStudentId())
-                .eq(StringUtils.isNotBlank(pageDTO.getAcademicYear()), Score::getAcademicYear,
-                        pageDTO.getAcademicYear())
-                .eq(StringUtils.isNotBlank(pageDTO.getTerm()), Score::getTerm, pageDTO.getTerm())
-                .eq(StringUtils.isNotBlank(pageDTO.getExamType()), Score::getExamType, pageDTO.getExamType())
-                .eq(pageDTO.getCourseId() != null, Score::getCourseId, pageDTO.getCourseId())
+                .eq(Score::getScId, pageDto.getScId())
+                .eq(StringUtils.isNotBlank(pageDto.getExamType()), Score::getExamType, pageDto.getExamType())
                 .orderByAsc(Score::getId);
-        return scoreMapper.selectPage(pageDTO.toPage(), scoreW);
+        return scoreMapper.selectPage(pageDto.toPage(), scoreW);
     }
 }

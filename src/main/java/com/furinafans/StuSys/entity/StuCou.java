@@ -18,9 +18,8 @@ public class StuCou {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Integer status;
-    private Double score;
     private Long studentId;
     private Long courseId;
     private String academicYear;
-    private String term;
+    private Integer term;
 }

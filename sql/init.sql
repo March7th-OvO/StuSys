@@ -33,37 +33,31 @@ CREATE TABLE IF NOT EXISTS courses (
     name                    VARCHAR(20) NOT NULL                      COMMENT '课程名',
     code                    VARCHAR(20) NOT NULL                      COMMENT '课程代码',
     CONSTRAINT pk_courses PRIMARY KEY (id),
-    CONSTRAINT uk_scores_name UNIQUE (name),
-    CONSTRAINT uk_scores_code UNIQUE (code)
+    CONSTRAINT uk_courses_name UNIQUE (name),
+    CONSTRAINT uk_courses_code UNIQUE (code)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '课程表';
-
-CREATE TABLE IF NOT EXISTS scores (
-    id                      BIGINT UNSIGNED AUTO_INCREMENT            COMMENT '主键ID',
-    score                   DECIMAL(6, 2)                             COMMENT '成绩',
-    course_id               BIGINT UNSIGNED NOT NULL                  COMMENT '课程ID',
-    student_id              BIGINT UNSIGNED NOT NULL                  COMMENT '学生ID',
-    academic_year           VARCHAR(20) NOT NULL                      COMMENT '学年',
-    term                    VARCHAR(20) NOT NULL                      COMMENT '学期',
-    exam_type               VARCHAR(20) NOT NULL                      COMMENT '考试类型',
-    CONSTRAINT pk_scores PRIMARY KEY (id),
-    CONSTRAINT fk_scores_students FOREIGN KEY (student_id) REFERENCES students (id),
-    CONSTRAINT fk_scores_courses FOREIGN KEY (course_id) REFERENCES courses (
-        id
-    ),
-    CONSTRAINT uk_scores_term UNIQUE (student_id, course_id, academic_year, term, exam_type)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '成绩表';
 
 CREATE TABLE IF NOT EXISTS student_course (
     id                      BIGINT UNSIGNED AUTO_INCREMENT            COMMENT '主键ID',
     course_id               BIGINT UNSIGNED NOT NULL                  COMMENT '课程ID',
     student_id              BIGINT UNSIGNED NOT NULL                  COMMENT '学生ID',
     academic_year           VARCHAR(20) NOT NULL                      COMMENT '学年，如2025-2026',
-    term                    VARCHAR(20) NOT NULL                      COMMENT '学期，如1为上学期、2为下学期',
-    status                  INT NOT NULL                              COMMENT '课程状态，1已选完，3已修完，3已退选',
+    term                    TINYINT NOT NULL                          COMMENT '学期，如1为上学期、2为下学期',
+    status                  TINYINT NOT NULL                          COMMENT '课程状态，1已选完，2已修完，3已退选',
     CONSTRAINT pk_students_courses PRIMARY KEY (id),
     CONSTRAINT fk_student_course_courses
     FOREIGN KEY (course_id) REFERENCES courses (id),
     CONSTRAINT fk_student_course_students
     FOREIGN KEY (student_id) REFERENCES students (id),
-    CONSTRAINT uk_stu_cour_term UNIQUE (student_id, course_id, academic_year, term)
+    CONSTRAINT uk_stu_cou_term UNIQUE (student_id, course_id, academic_year, term)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '学生_课程表';
+
+CREATE TABLE IF NOT EXISTS scores (
+    id                      BIGINT UNSIGNED AUTO_INCREMENT            COMMENT '主键ID',
+    student_course_id       BIGINT UNSIGNED NOT NULL                  COMMENT 'sc表外键',
+    score                   DECIMAL(6, 2)                             COMMENT '成绩',
+    exam_type               VARCHAR(20) NOT NULL                      COMMENT '考试类型',
+    CONSTRAINT fk_scores_sc FOREIGN KEY (student_course_id) REFERENCES student_course (id),
+    CONSTRAINT uk_scores_sc_exam_type UNIQUE KEY (student_course_id, exam_type),
+    CONSTRAINT pk_scores PRIMARY KEY (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COMMENT = '成绩表';

@@ -21,8 +21,8 @@ public class StuCouXuanDto {
     @NotBlank (message = "学年不能为空！")
     private String academicYear;
 
-    @NotBlank (message = "学期不能为空！")
-    private String term;
+    @NotNull (message = "学期不能为空！")
+    private Integer term;
 
     public StuCou toEntity(){
         return StuCou.builder()
