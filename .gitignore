@@ -1,5 +1,7 @@
 HELP.md
 target/
+# 本地测试用例不纳入版本控制。
+/src/test/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
