@@ -32,6 +32,3 @@ build/
 ### VS Code ###
 .vscode/
 .sqlfluff
-
-### Python formatting tools ###
-__pycache__/
