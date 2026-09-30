@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("Scores")
+@TableName("scores")
 public class Score {
     @TableId(type = IdType.AUTO) 
     @NotNull (message = "主键不能为空")
