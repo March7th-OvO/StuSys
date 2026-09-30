@@ -1,4 +1,4 @@
-package com.furinafans.stusys.vo;
+package com.furinafans.stusys.dto;
 
 import com.furinafans.stusys.common.base.BasePageQuery;
 import com.furinafans.stusys.entity.StuCou;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class StuCouVo extends BasePageQuery<StuCou> {
+public class StuCouPageDto extends BasePageQuery<StuCou> {
     private Long id;
     private Integer status;
     private Double score;

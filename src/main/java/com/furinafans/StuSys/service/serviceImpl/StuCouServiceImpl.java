@@ -8,12 +8,12 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.furinafans.stusys.common.constant.ErrorCode;
+import com.furinafans.stusys.dto.StuCouPageDto;
 import com.furinafans.stusys.dto.StuCouXuanDto;
 import com.furinafans.stusys.entity.StuCou;
 import com.furinafans.stusys.exception.BizException;
 import com.furinafans.stusys.mapper.StuCouMapper;
 import com.furinafans.stusys.service.StuCouService;
-import com.furinafans.stusys.vo.StuCouVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,7 +63,7 @@ public class StuCouServiceImpl implements StuCouService {
     }
 
     @Override
-    public IPage<StuCou> page(StuCouVo request) {
+    public IPage<StuCou> page(StuCouPageDto request) {
         LambdaQueryWrapper<StuCou> pageW = new LambdaQueryWrapper<>();
         pageW
                 .eq(request.getStudentId() != null, StuCou::getStudentId, request.getStudentId())

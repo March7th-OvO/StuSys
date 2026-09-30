@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.furinafans.stusys.common.Result;
+import com.furinafans.stusys.dto.StuCouPageDto;
 import com.furinafans.stusys.dto.StuCouXuanDto;
 import com.furinafans.stusys.entity.StuCou;
 import com.furinafans.stusys.service.StuCouService;
-import com.furinafans.stusys.vo.StuCouVo;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class StudentCourseController {
     }
 
     @GetMapping 
-    public Result<IPage<StuCou>> page(@Valid StuCouVo request){
+    public Result<IPage<StuCou>> page(@Valid StuCouPageDto request){
         return Result.success(scService.page(request));
     }
 }
