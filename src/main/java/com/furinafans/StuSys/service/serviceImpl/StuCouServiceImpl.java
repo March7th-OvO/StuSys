@@ -27,6 +27,19 @@ public class StuCouServiceImpl implements StuCouService {
     public StuCou xuanKe(StuCouXuanDto sc) {
         StuCou sce = sc.toEntity();
         sce.setStatus(1);
+
+        LambdaQueryWrapper<StuCou> scW = new LambdaQueryWrapper<>();
+        scW
+                .eq(StuCou::getStudentId, sc.getStudentId())
+                .eq(StuCou::getCourseId, sc.getCourseId())
+                .eq(StuCou::getAcademicYear, sc.getAcademicYear())
+                .eq(StuCou::getTerm, sc.getTerm());
+
+        StuCou result = scMapper.selectOne(scW);
+
+        if (result != null && result.getStatus() == 3)
+            throw new BizException(ErrorCode.CONFLICT, "此学年学期已经退课的课程不能再次选择！");
+
         try {
             if (scMapper.insert(sce) != 1)
                 throw new BizException(ErrorCode.SERVER_ERROR, "选课失败！");
@@ -68,11 +81,12 @@ public class StuCouServiceImpl implements StuCouService {
         pageW
                 .eq(request.getStudentId() != null, StuCou::getStudentId, request.getStudentId())
                 .eq(request.getCourseId() != null, StuCou::getCourseId, request.getCourseId())
-                .eq(StringUtils.isNotBlank(request.getAcademicYear()), StuCou::getAcademicYear,request.getAcademicYear())
+                .eq(StringUtils.isNotBlank(request.getAcademicYear()), StuCou::getAcademicYear,
+                        request.getAcademicYear())
                 .eq(request.getTerm() != null, StuCou::getTerm, request.getTerm())
                 .eq(request.getStatus() != null, StuCou::getStatus, request.getStatus())
                 .orderByDesc(StuCou::getId);
-        
+
         return scMapper.selectPage(request.toPage(), pageW);
     }
 
